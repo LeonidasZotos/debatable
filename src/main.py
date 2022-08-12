@@ -1,8 +1,6 @@
 import sys
-import os
 from extractKeyTerms import *
 from tkinter import *
-import tkinter.scrolledtext as tkst
 
 if __name__ == "__main__":
     # check if the user has provided a link to analyze
@@ -13,5 +11,5 @@ if __name__ == "__main__":
     keyTerms = extractKeyTerms(url)
 
     print(keyTerms)
-    
+
     sys.exit(0)

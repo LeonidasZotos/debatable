@@ -1,6 +1,6 @@
+import sys
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from nltk import FreqDist
 from textblob import TextBlob
 from collections import Counter
 
@@ -17,6 +17,7 @@ def extractNouns(text):
     blob = TextBlob(text)
     nouns = blob.noun_phrases
     return nouns
+
 
 def getMostCommonWords(text, numberOfWords=5):
     #get most frequent words in string
@@ -46,3 +47,7 @@ def extractAllText(url):
     # remove new lines from string
     text = text.replace('\n', ' ')
     return (text)
+
+keyTerms = extractKeyTerms(sys.argv[1])
+print(keyTerms)
+sys.exit(0)
