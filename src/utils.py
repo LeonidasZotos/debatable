@@ -3,7 +3,10 @@ from bs4 import BeautifulSoup as soup
 
 
 def getSource(url):
-    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'}) # mask to avoid HTTP 403 error
+    custom_user_agent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0"
+    req = Request(url,
+                  headers={'User-Agent':
+                           custom_user_agent})  # mask to avoid HTTP 403 error
     webpage = urlopen(req).read()
     return soup(webpage, 'html.parser')
 
@@ -11,6 +14,7 @@ def getSource(url):
 def getTitleFromSource(htmlSourceSoup):
     title = htmlSourceSoup.find("title").get_text()
     return title
+
 
 def getTextFromSource(htmlSourceSoup):
 
@@ -35,6 +39,7 @@ def getTextFromSource(htmlSourceSoup):
 def getTextFromURL(url):
     source = getSource(url)
     return getTextFromSource(source)
+
 
 def getTitleFromURL(url):
     source = getSource(url)
