@@ -1,10 +1,29 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+from nltk import FreqDist
+from textblob import TextBlob
+from collections import Counter
 
 
 def extractKeyTerms(url):
     all_text = extractAllText(url)
-    return all_text
+    nouns = extractNouns(all_text)
+    mostCommonNouns = getMostCommonWords(nouns)
+    return mostCommonNouns
+
+
+def extractNouns(text):
+    # get all nouns in text
+    blob = TextBlob(text)
+    nouns = blob.noun_phrases
+    return nouns
+
+def getMostCommonWords(text, numberOfWords=5):
+    #get most frequent words in string
+    counter = Counter(text)
+    mostCommonWords = counter.most_common(numberOfWords)
+    justWords = [i[0] for i in mostCommonWords]
+    return justWords
 
 
 def extractAllText(url):
@@ -13,7 +32,7 @@ def extractAllText(url):
 
     # kill all script and style elements
     for script in soup(["script", "style"]):
-        script.extract()    # rip it out
+        script.extract()  # rip it out
 
     # get text
     text = soup.get_text()
@@ -26,4 +45,4 @@ def extractAllText(url):
     text = '\n'.join(chunk for chunk in chunks if chunk)
     # remove new lines from string
     text = text.replace('\n', ' ')
-    return(text)
+    return (text)

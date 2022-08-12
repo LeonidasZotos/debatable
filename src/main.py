@@ -10,7 +10,8 @@ if __name__ == "__main__":
         print("Usage: python main.py <url>")
         sys.exit(1)
     url = sys.argv[1]
-    key_terms = extractKeyTerms(url)
+    keyTerms = extractKeyTerms(url)
 
-    print(key_terms)
+    print(keyTerms)
+    
     sys.exit(0)
