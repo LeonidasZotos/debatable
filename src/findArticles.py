@@ -64,13 +64,9 @@ def getLinks(query):
 
     links = keepOnlyHttpLinks(links)
     removeUntilHttp(links)
-    print(links)
     return links
 
 
 def findArticles(query):
     links = getLinks(query)
     return links
-
-
-getLinks(sys.argv[1])

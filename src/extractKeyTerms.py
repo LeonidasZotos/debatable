@@ -31,5 +31,3 @@ def getMostCommonWords(text, numberOfWords=5):
 
 
 keyTerms = extractKeyTerms(sys.argv[1])
-print(keyTerms)
-sys.exit(0)
