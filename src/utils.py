@@ -1,5 +1,6 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup as soup
+import random
 
 
 def getSource(url):
@@ -44,3 +45,8 @@ def getTextFromURL(url):
 def getTitleFromURL(url):
     source = getSource(url)
     return getTitleFromSource(source)
+
+
+#function that picks x random items from list
+def pickRandomItems(list, x):
+    return random.sample(list, x)

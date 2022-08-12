@@ -1,7 +1,7 @@
 import sys
-from extractKeyTerms import *
-from tkinter import *
+from extractKeyTerms import extractKeyTerms
 from findArticles import findArticles
+from sentimentVariation import calcSentimentVariation # CHANGE THIS!!!
 
 if __name__ == "__main__":
     # check if the user has provided a link to analyze
@@ -13,10 +13,13 @@ if __name__ == "__main__":
     query = ' '.join(keyTerms)
     print("The key terms are:" + str(keyTerms))
     relatedArticles = findArticles(query)
-    print("The found articles are:")
+    print("The articles found are:")
     for article in relatedArticles:
         print(article)
-        print("/n")
+        print("")
+    
+    variationScore = calcSentimentVariation(relatedArticles)
+    print("The variation score is: " + str(variationScore))
 
 
     sys.exit(0)

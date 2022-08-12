@@ -28,6 +28,3 @@ def getMostCommonWords(text, numberOfWords=5):
     mostCommonWords = counter.most_common(numberOfWords)
     justWords = [i[0] for i in mostCommonWords]
     return justWords
-
-
-keyTerms = extractKeyTerms(sys.argv[1])

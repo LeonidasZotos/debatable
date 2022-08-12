@@ -17,17 +17,17 @@ def scrapeGoogle(query):
         links.append(link.get('href'))
 
     googleDomains = ('https://www.google.', 'https://google.',
-                      'https://webcache.googleusercontent.',
-                      'http://webcache.googleusercontent.',
-                      'https://policies.google.', 'https://support.google.',
-                      'https://maps.google.', 'https://accounts.google.')
+                     'https://webcache.googleusercontent.',
+                     'http://webcache.googleusercontent.',
+                     'https://policies.google.', 'https://support.google.',
+                     'https://maps.google.', 'https://accounts.google.')
 
+    #If any googleDomain is in the link, remove it
     for link in links[:]:
-        if link.startswith(googleDomains):
+        if any(domain in link for domain in googleDomains):
             links.remove(link)
 
     return links
-
 
 def scrapeBing(query):
     links = []
@@ -38,6 +38,7 @@ def scrapeDuck(query):
     links = []
     return links
 
+
 #filters out strings that are not links, and converts them to proper links starting with http or https
 def keepOnlyHttpLinks(links):
     http_domains = ('http://', 'https://')
@@ -47,10 +48,11 @@ def keepOnlyHttpLinks(links):
     return links
 
 
-#function that removes text from string until 'http' is encountered
-def removeUntilHttp(links):
+#function that removes things before the 'http' and after the &dev
+def keepMainLink(links):
     for i in range(len(links)):
         links[i] = 'http' + links[i].split('http', 1)[1]
+        links[i] = links[i].split('&ved')[0]
 
 
 def getLinks(query):
@@ -60,10 +62,10 @@ def getLinks(query):
     # bingLinks = scrapeBing(query)
 
     links = googleLinks
-    
 
     links = keepOnlyHttpLinks(links)
-    removeUntilHttp(links)
+    keepMainLink(links)
+    links = list(set(links))
     return links
 
 
