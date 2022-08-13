@@ -5,7 +5,30 @@ from config import settings
 
 def scrapeGoogle(query):
     query = urllib.parse.quote_plus(query)
-    url = "https://www.google.com/search?q=" + query
+    url = "https://www.google.com/search?q=" + query + "&num=30"
+    response = getSource(url)
+    links = []
+    for link in response.findAll('a'):
+        links.append(link.get('href'))
+
+    googleDomains = ('https://www.google.', 'https://google.',
+                     'https://webcache.googleusercontent.',
+                     'http://webcache.googleusercontent.',
+                     'https://policies.google.', 'https://support.google.',
+                     'https://maps.google.', 'https://accounts.google.',
+                     'youtube.com')
+
+    #If any googleDomain is in the link, remove it
+    for link in links[:]:
+        if any(domain in link for domain in googleDomains):
+            links.remove(link)
+
+    return links
+
+
+def scrapeGoogleNews(query):
+    query = urllib.parse.quote_plus(query)
+    url = "https://www.google.com/search?q=" + query + "&tbm=nws&lr=lang_en&hl=en&sort=date&num=30"
     response = getSource(url)
     links = []
     for link in response.findAll('a'):
@@ -55,14 +78,15 @@ def keepMainLink(links):
 def getLinks(query):
     # update once more engines can be scraped
     googleLinks = scrapeGoogle(query)
+    googleNewslinks = scrapeGoogleNews(query)
     # duckLinks = scrapeDuck(query)
     # bingLinks = scrapeBing(query)
 
-    links = googleLinks
+    links = googleLinks + googleNewslinks
 
     links = keepOnlyHttpLinks(links)
     keepMainLink(links)
-    links = list(set(links))
+    links = list(set(links))  #remove duplicates
     return links
 
 

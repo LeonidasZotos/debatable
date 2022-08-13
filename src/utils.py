@@ -14,7 +14,8 @@ def getSource(url):
         if settings['debug'] == True:
             print("Successfully opened url: " + url)
     except:
-        print("Could not access source of URL: " + url)
+        if settings['debug'] == True:
+            print("Could not access source of URL: " + url)
         return None
 
     return soup(webpage, 'html.parser')

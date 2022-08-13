@@ -7,16 +7,16 @@ from textblob import TextBlob
 from config import settings
 
 
-
 # Extracts text from the list of urls
 def extractTextFromUrls(listOfUrls):
     if settings['multiProcessing']:
         with mp.Pool(os.cpu_count()) as pool:
             result = list(
-                tqdm(pool.imap(getTextFromURL, listOfUrls), total=len(listOfUrls)))
+                tqdm(pool.imap(getTextFromURL, listOfUrls),
+                     total=len(listOfUrls)))
     else:
         result = list(map(getTextFromURL, tqdm(listOfUrls)))
-        
+
     #remove None values from result (sites that could not be accessed)
     result = [i for i in result if i != None]
     return result
