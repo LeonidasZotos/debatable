@@ -20,5 +20,4 @@ if __name__ == "__main__":
     variationScore = calcSentimentVariation(relatedArticles)
     print("The variation score is: " + str(variationScore))
 
-
     sys.exit(0)

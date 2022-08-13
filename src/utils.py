@@ -9,9 +9,10 @@ def getSource(url):
     req = Request(url,
                   headers={'User-Agent':
                            custom_user_agent})  # mask to avoid HTTP 403 error
-    webpage = urlopen(req).read()
     try:
-        webpage = urlopen(req).read()
+        webpage = urlopen(req, timeout=5).read()
+        if settings['debug'] == True:
+            print("Successfully opened url: " + url)
     except:
         print("Could not access source of URL: " + url)
     return soup(webpage, 'html.parser')

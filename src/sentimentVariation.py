@@ -1,20 +1,23 @@
+import os
+import multiprocessing as mp
 import numpy as np
 from utils import *
 from tqdm import tqdm
 from textblob import TextBlob
 from config import settings
-from multiprocessing import Process
+from functools import partial
+from itertools import repeat
+
 
 # Extracts text from the list of urls
 def extractTextFromUrls(listOfUrls):
-    allTexts = []
-    for url in tqdm(listOfUrls, desc='Extracting text from urls'):
-        try:
-            getTextFromURL(url, allTexts)
-        except:
-            print('Could not get text from url: ' + url)
-            pass
-    return allTexts
+    if settings['multiProcessing']:
+        with mp.Pool(os.cpu_count()) as pool:
+            result = list(
+                tqdm(pool.imap(getTextFromURL, listOfUrls), total=len(listOfUrls)))
+    else:
+        result = list(map(getTextFromURL, tqdm(listOfUrls)))
+    return result
 
 
 # Calculate sentiment polarity of text, based on adjectives and adverbs
