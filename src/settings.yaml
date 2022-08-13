@@ -1,4 +1,5 @@
-debug: False # Show debug messages?
+debug: True # Show debug messages?
+keyTermsMethod: "title" # "title" or "common". Method to be used for key term extraction from original article
 numberOfArticles: 15 # Number of articles considered for the score calculation
 scoreType: "polarity" # Base result based on either "polarity" or "subjectivity"
-multiProcessing: False # Use multiprocessing? 
+multiProcessing: True # Use multiprocessing? 

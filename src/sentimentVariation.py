@@ -5,8 +5,7 @@ from utils import *
 from tqdm import tqdm
 from textblob import TextBlob
 from config import settings
-from functools import partial
-from itertools import repeat
+
 
 
 # Extracts text from the list of urls
@@ -17,6 +16,9 @@ def extractTextFromUrls(listOfUrls):
                 tqdm(pool.imap(getTextFromURL, listOfUrls), total=len(listOfUrls)))
     else:
         result = list(map(getTextFromURL, tqdm(listOfUrls)))
+        
+    #remove None values from result (sites that could not be accessed)
+    result = [i for i in result if i != None]
     return result
 
 

@@ -15,6 +15,8 @@ def getSource(url):
             print("Successfully opened url: " + url)
     except:
         print("Could not access source of URL: " + url)
+        return None
+
     return soup(webpage, 'html.parser')
 
 
@@ -43,16 +45,20 @@ def getTextFromSource(htmlSourceSoup):
     return (text)
 
 
-def getTextFromURL(url, listToAppendTo = None):
+def getTextFromURL(url, listToAppendTo=None):
     source = getSource(url)
-    if listToAppendTo is not None:
+    if listToAppendTo is not None and source is not None:
         listToAppendTo.append(getTextFromSource(source))
-    return getTextFromSource(source)
+    if source is not None:
+        return getTextFromSource(source)
+    return None
 
 
 def getTitleFromURL(url):
     source = getSource(url)
-    return getTitleFromSource(source)
+    if source is not None:
+        return getTitleFromSource(source)
+    return None
 
 
 #function that picks x random items from list

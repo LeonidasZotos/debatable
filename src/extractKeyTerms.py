@@ -1,15 +1,15 @@
-import sys
 from textblob import TextBlob
 from collections import Counter
 from utils import *
+from config import settings
 
-
-def extractKeyTerms(url, method='common'):
-    if method == 'common':
+#TODO: make setting for common and title methods
+def extractKeyTerms(url):
+    if settings['keyTermsMethod'] == 'common':
         all_text = getTextFromURL(url)
         nouns = extractNouns(all_text)
         keyTerms = getMostCommonWords(nouns)
-    elif method == 'title':
+    elif settings['keyTermsMethod'] == 'title':
         title = getTitleFromURL(url)
         keyTerms = extractNouns(title)
     return keyTerms
