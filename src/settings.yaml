@@ -1,0 +1,3 @@
+debug: False # True or False for debug
+numberOfArticles: 15 # Number of articles considered for the score calculation
+scoreType: "polarity" # Base result based on either "polarity" or "subjectivity"

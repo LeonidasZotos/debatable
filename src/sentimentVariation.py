@@ -1,39 +1,46 @@
 import numpy as np
-
 from utils import *
+from tqdm import tqdm
 from textblob import TextBlob
+from config import settings
 
 
 #Extracts text from the list of urls
 def extractTextFromUrls(listOfUrls):
     allTexts = []
-
-    for url in listOfUrls:
+    for url in tqdm(listOfUrls, desc='Extracting text from urls'):
         try:
             text = getTextFromURL(url)
             allTexts.append(text)
-            print("success!")
         except:
             print('Could not get text from url: ' + url)
             pass
-
     return allTexts
 
 
 #calculate sentiment polarity of text, based on adjectives and adverbs
 def calculateSentiment(text):
     blob = TextBlob(text)
-    blob = blob.tags
-    blob = [word for word, pos in blob if pos in ['JJ', 'RB']]
-    blob = ' '.join(blob)
-    blob = TextBlob(blob)
+    # blob = blob.tags
+    # blob = [word for word, pos in blob if pos in ['JJ', 'RB']]
+    # blob = ' '.join(blob)
+    # blob = TextBlob(blob)
+    #output blob to file for debugging
+    with open('blob.txt', 'w') as f:
+        f.write(str(blob))
+    if settings['scoreType'] == "subjectivity":
+        return blob.sentiment.subjectivity
+    elif settings['scoreType'] == "polarity":
+        return blob.sentiment.polarity
+    else:
+        print("Score type not recognised.")
+        return None
+    
 
-    return blob.sentiment.polarity
-
-
-def calculatePolarityScores(allTexts):
+#calculate polarity scores for all texts
+def calculateScores(allTexts):
     allPolarityScores = []
-    for text in allTexts:
+    for text in tqdm(allTexts, desc="Calculating scores"):
         allPolarityScores.append(calculateSentiment(text))
     return allPolarityScores
 
@@ -46,26 +53,18 @@ def normaliseValues(polarities):
     return polarities
 
 
-def normaliseAndScaleValues(polarities):
-    #normalise values to between 0 and 1
-    minValue = min(polarities)
-    maxValue = max(polarities)
-    for i in range(len(polarities)):
-        polarities[i] = (polarities[i] - minValue) / (maxValue - minValue)
-
-    return polarities
-
-
 def calculateVariationScore(polarities):
+    print("Calculating variation score.")
+    print(polarities)
     #return standard deviation of the polarity scores
     return np.std(polarities)
 
 
-def calcSentimentVariation(relatedArticlesURLs, numberOfArticles=5):
+def calcSentimentVariation(relatedArticlesURLs):
     allTexts = extractTextFromUrls(relatedArticlesURLs)
-    if (len(allTexts) > numberOfArticles):
+    if (len(allTexts) > settings['numberOfArticles']):
         #if there are more articles than we want to look at, pick random ones
-        allTexts = pickRandomItems(allTexts, numberOfArticles)
-    polarities = calculatePolarityScores(allTexts)
+        allTexts = pickRandomItems(allTexts, settings['numberOfArticles'])
+    polarities = calculateScores(allTexts)
     normPolarities = normaliseValues(polarities)
     return calculateVariationScore(normPolarities)

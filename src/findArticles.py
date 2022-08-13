@@ -1,11 +1,6 @@
-from curses import meta
-import sys
-import os
-import requests
 import urllib
-from requests_html import HTML
-from requests_html import HTMLSession
 from utils import *
+from config import settings
 
 
 def scrapeGoogle(query):
@@ -20,7 +15,7 @@ def scrapeGoogle(query):
                      'https://webcache.googleusercontent.',
                      'http://webcache.googleusercontent.',
                      'https://policies.google.', 'https://support.google.',
-                     'https://maps.google.', 'https://accounts.google.')
+                     'https://maps.google.', 'https://accounts.google.', 'youtube.com')
 
     #If any googleDomain is in the link, remove it
     for link in links[:]:

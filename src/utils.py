@@ -1,6 +1,8 @@
+import random
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup as soup
-import random
+from config import settings
+
 
 
 def getSource(url):
@@ -9,6 +11,10 @@ def getSource(url):
                   headers={'User-Agent':
                            custom_user_agent})  # mask to avoid HTTP 403 error
     webpage = urlopen(req).read()
+    try:
+        webpage = urlopen(req).read()
+    except:
+        print("Could not access source of URL: " + url)
     return soup(webpage, 'html.parser')
 
 
