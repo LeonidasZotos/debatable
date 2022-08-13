@@ -1,3 +1,4 @@
-debug: False # True or False for debug
+debug: False # Show debug messages?
 numberOfArticles: 15 # Number of articles considered for the score calculation
 scoreType: "polarity" # Base result based on either "polarity" or "subjectivity"
+multiProcess: True # Use multiprocessing? 

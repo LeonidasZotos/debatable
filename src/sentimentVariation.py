@@ -3,22 +3,21 @@ from utils import *
 from tqdm import tqdm
 from textblob import TextBlob
 from config import settings
+from multiprocessing import Process
 
-
-#Extracts text from the list of urls
+# Extracts text from the list of urls
 def extractTextFromUrls(listOfUrls):
     allTexts = []
     for url in tqdm(listOfUrls, desc='Extracting text from urls'):
         try:
-            text = getTextFromURL(url)
-            allTexts.append(text)
+            getTextFromURL(url, allTexts)
         except:
             print('Could not get text from url: ' + url)
             pass
     return allTexts
 
 
-#calculate sentiment polarity of text, based on adjectives and adverbs
+# Calculate sentiment polarity of text, based on adjectives and adverbs
 def calculateSentiment(text):
     blob = TextBlob(text)
     # blob = blob.tags
@@ -35,7 +34,7 @@ def calculateSentiment(text):
     else:
         print("Score type not recognised.")
         return None
-    
+
 
 #calculate polarity scores for all texts
 def calculateScores(allTexts):

@@ -15,7 +15,8 @@ def scrapeGoogle(query):
                      'https://webcache.googleusercontent.',
                      'http://webcache.googleusercontent.',
                      'https://policies.google.', 'https://support.google.',
-                     'https://maps.google.', 'https://accounts.google.', 'youtube.com')
+                     'https://maps.google.', 'https://accounts.google.',
+                     'youtube.com')
 
     #If any googleDomain is in the link, remove it
     for link in links[:]:
@@ -23,6 +24,7 @@ def scrapeGoogle(query):
             links.remove(link)
 
     return links
+
 
 def scrapeBing(query):
     links = []

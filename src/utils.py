@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup as soup
 from config import settings
 
 
-
 def getSource(url):
     custom_user_agent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0"
     req = Request(url,
@@ -43,8 +42,10 @@ def getTextFromSource(htmlSourceSoup):
     return (text)
 
 
-def getTextFromURL(url):
+def getTextFromURL(url, listToAppendTo = None):
     source = getSource(url)
+    if listToAppendTo is not None:
+        listToAppendTo.append(getTextFromSource(source))
     return getTextFromSource(source)
 
 
