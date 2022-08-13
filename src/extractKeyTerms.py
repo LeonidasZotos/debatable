@@ -4,8 +4,9 @@ from collections import Counter
 from utils import *
 from config import settings
 
+
 def extractKeyTerms(url):
-    try:   
+    try:
         if settings['keyTermsMethod'] == 'common':
             all_text = getTextFromURL(url)
             nouns = extractNouns(all_text)

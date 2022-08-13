@@ -2,4 +2,6 @@ debug: True # Show debug messages?
 keyTermsMethod: "title" # "title" or "common". Method to be used for key term extraction from original article
 numberOfArticles: 30 # Maximum number of articles considered for the score calculation
 scoreType: "polarity" # Base result based on either "polarity" or "subjectivity"
-multiProcessing: True # Use multiprocessing? 
+multiProcessing: "L2" # L0 for no multiprocessing. L1 for multiprocessing runner process. L2 for multiprocessing page retrieval
+outputFile: "outputValuations.txt" #Name of output file
+loadingBars: False # Show loading bars? 

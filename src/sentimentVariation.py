@@ -9,13 +9,16 @@ from config import settings
 
 # Extracts text from the list of urls
 def extractTextFromUrls(listOfUrls):
-    if settings['multiProcessing']:
+    if settings['multiProcessing'] == 'L2':
         with mp.Pool(os.cpu_count()) as pool:
             result = list(
                 tqdm(pool.imap(getTextFromURL, listOfUrls),
-                     total=len(listOfUrls)))
+                     total=len(listOfUrls),
+                     disable=settings['loadingBars']))
     else:
-        result = list(map(getTextFromURL, tqdm(listOfUrls)))
+        result = list(
+            map(getTextFromURL,
+                tqdm(listOfUrls, disable=settings['loadingBars'])))
 
     #remove None values from result (sites that could not be accessed)
     result = [i for i in result if i != None]
@@ -37,7 +40,7 @@ def calculateSentiment(text):
 #calculate polarity scores for all texts
 def calculateScores(allTexts):
     allPolarityScores = []
-    for text in tqdm(allTexts, desc="Calculating scores"):
+    for text in tqdm(allTexts, desc="Calculating scores", disable=settings['loadingBars']):
         allPolarityScores.append(calculateSentiment(text))
     return allPolarityScores
 
