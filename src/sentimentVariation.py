@@ -25,13 +25,6 @@ def extractTextFromUrls(listOfUrls):
 # Calculate sentiment polarity of text, based on adjectives and adverbs
 def calculateSentiment(text):
     blob = TextBlob(text)
-    # blob = blob.tags
-    # blob = [word for word, pos in blob if pos in ['JJ', 'RB']]
-    # blob = ' '.join(blob)
-    # blob = TextBlob(blob)
-    #output blob to file for debugging
-    with open('blob.txt', 'w') as f:
-        f.write(str(blob))
     if settings['scoreType'] == "subjectivity":
         return blob.sentiment.subjectivity
     elif settings['scoreType'] == "polarity":
