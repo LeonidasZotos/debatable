@@ -16,7 +16,7 @@ def extractKeyTerms(url):
             keyTerms = extractNouns(title)
     except:
         print("Key terms could not be retrieved, check that the link works.")
-        sys.exit(0)
+        return None
     return keyTerms
 
 

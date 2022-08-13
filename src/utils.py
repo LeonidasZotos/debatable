@@ -10,7 +10,7 @@ def getSource(url):
                   headers={'User-Agent':
                            custom_user_agent})  # mask to avoid HTTP 403 error
     try:
-        webpage = urlopen(req, timeout=5).read()
+        webpage = urlopen(req, timeout=settings['webpageLoadingTimeout']).read()
         if settings['debug'] == True:
             print("Successfully opened url: " + url)
     except:

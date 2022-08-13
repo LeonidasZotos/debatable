@@ -1,1 +1,0 @@
-https://www.geeksforgeeks.org/initialize-an-empty-dictionary-in-python/           0.0812989795316056

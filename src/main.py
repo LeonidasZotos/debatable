@@ -26,6 +26,8 @@ def inputSetup(args):
 
 def checkURL(url):
     keyTerms = extractKeyTerms(url)
+    if keyTerms == None:
+        return None
     query = ' '.join(keyTerms)
     if settings['debug'] == True:
         print("Key terms have been extracted from the article.")
@@ -35,37 +37,43 @@ def checkURL(url):
     variationScore = calcSentimentVariation(relatedArticles)
     if settings['debug'] == True:
         print("The variation score is: " + str(variationScore))
-    return [url, str(variationScore)]
+    
+    #Write to the ongoing file in case there is a crash later on
+    with open(settings['ongoingOutputFile'], 'a') as f:
+        f.write(str([str(keyTerms), str(variationScore)]) + '\n')
+    return [str(keyTerms), str(variationScore)]
 
 
 def runner(listOfUrls):
     allResults = []  # List of results
     if settings['multiProcessing'] == 'L1':
         with mp.Pool(os.cpu_count()) as pool:
-            allResults = list(tqdm(pool.imap(checkURL, listOfUrls), total=len(listOfUrls), disable=settings['loadingBars']))
-
+            allResults = list(
+                tqdm(pool.imap(checkURL, listOfUrls),
+                     total=len(listOfUrls),
+                     disable=settings['disableLoadingBars']))
     else:
-        allResults = list(map(checkURL, tqdm(listOfUrls, disable=settings['loadingBars'])))
+        allResults = list(
+            map(checkURL,
+                tqdm(listOfUrls, disable=settings['disableLoadingBars'])))
 
-    return allResults
+    # Remove none results from list (e.g. because one of the sources is down)
+    filteredResults = list(filter(None, allResults))
+    
+    return filteredResults
 
 
 if __name__ == "__main__":
     input = inputSetup(getArguments())
-    if input != None:
-        results = runner(input)
-        #write results to file
-        with open(settings['outputFile'], 'w') as f:
-            for result in results:
-                f.write(result[0] + '           ' + result[1] + '\n')
-        print("Results have been written to " + settings['outputFile'])
-        
-    # keyTerms = extractKeyTerms(url)
-    # query = ' '.join(keyTerms)
-    # print("Key terms have been extracted from the article.")
-    # relatedArticles = findArticles(query)
-    # print("Related articles have been found.")
-    # variationScore = calcSentimentVariation(relatedArticles)
-    # print("The variation score is: " + str(variationScore))
+    if input == None:
+        sys.exit(0)
+    
+    results = runner(input)
+    #write results to file
+    print(results)
+    with open(settings['finalOutputFile'], 'w') as f:
+        for result in results:
+            f.write(result[0] + '           ' + result[1] + '\n')
+    print("Results have been written to " + settings['finalOutputFile'])
 
     sys.exit(0)

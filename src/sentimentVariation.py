@@ -14,11 +14,11 @@ def extractTextFromUrls(listOfUrls):
             result = list(
                 tqdm(pool.imap(getTextFromURL, listOfUrls),
                      total=len(listOfUrls),
-                     disable=settings['loadingBars']))
+                     disable=settings['disableLoadingBars']))
     else:
         result = list(
             map(getTextFromURL,
-                tqdm(listOfUrls, disable=settings['loadingBars'])))
+                tqdm(listOfUrls, disable=settings['disableLoadingBars'])))
 
     #remove None values from result (sites that could not be accessed)
     result = [i for i in result if i != None]
@@ -40,7 +40,7 @@ def calculateSentiment(text):
 #calculate polarity scores for all texts
 def calculateScores(allTexts):
     allPolarityScores = []
-    for text in tqdm(allTexts, desc="Calculating scores", disable=settings['loadingBars']):
+    for text in tqdm(allTexts, desc="Calculating scores", disable=settings['disableLoadingBars']):
         allPolarityScores.append(calculateSentiment(text))
     return allPolarityScores
 
@@ -55,7 +55,6 @@ def normaliseValues(polarities):
 
 def calculateVariationScore(polarities):
     print("Calculating variation score.")
-    print(polarities)
     #return standard deviation of the polarity scores
     return np.std(polarities)
 
