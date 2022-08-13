@@ -3,15 +3,15 @@ from extractKeyTerms import extractKeyTerms
 from findArticles import findArticles
 from sentimentVariation import calcSentimentVariation
 from config import settings
+from argumentParser import getArguments
 
 if __name__ == "__main__":
     if settings['debug'] == True:
         print("Debug mode is on.")
-    # check if the user has provided a link to analyze
-    if len(sys.argv) != 2:
-        print("Usage: python main.py <url>")
-        sys.exit(1)
-    url = sys.argv[1]
+        
+    args = getArguments() # Get command line arguments
+
+    url = args.link
     keyTerms = extractKeyTerms(url)
     query = ' '.join(keyTerms)
     print("Key terms have been extracted from the article.")

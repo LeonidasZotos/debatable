@@ -1,5 +1,5 @@
 debug: True # Show debug messages?
 keyTermsMethod: "title" # "title" or "common". Method to be used for key term extraction from original article
-numberOfArticles: 200 # Maximum number of articles considered for the score calculation
+numberOfArticles: 30 # Maximum number of articles considered for the score calculation
 scoreType: "polarity" # Base result based on either "polarity" or "subjectivity"
 multiProcessing: True # Use multiprocessing? 

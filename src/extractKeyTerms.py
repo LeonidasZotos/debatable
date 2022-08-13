@@ -1,17 +1,21 @@
+import sys
 from textblob import TextBlob
 from collections import Counter
 from utils import *
 from config import settings
 
-#TODO: make setting for common and title methods
 def extractKeyTerms(url):
-    if settings['keyTermsMethod'] == 'common':
-        all_text = getTextFromURL(url)
-        nouns = extractNouns(all_text)
-        keyTerms = getMostCommonWords(nouns)
-    elif settings['keyTermsMethod'] == 'title':
-        title = getTitleFromURL(url)
-        keyTerms = extractNouns(title)
+    try:   
+        if settings['keyTermsMethod'] == 'common':
+            all_text = getTextFromURL(url)
+            nouns = extractNouns(all_text)
+            keyTerms = getMostCommonWords(nouns)
+        elif settings['keyTermsMethod'] == 'title':
+            title = getTitleFromURL(url)
+            keyTerms = extractNouns(title)
+    except:
+        print("Key terms could not be retrieved, check that the link works.")
+        sys.exit(0)
     return keyTerms
 
 
