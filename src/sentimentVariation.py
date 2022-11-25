@@ -1,11 +1,26 @@
 import os
 import multiprocessing as mp
 import numpy as np
-from utils import *
 from tqdm import tqdm
 from textblob import TextBlob
-from config import settings
+from newspaper import Article
 
+from config import settings
+from utils import pickRandomItems
+
+## Sentiment Variation. Not used by default, but could be useful in the future. 
+
+
+def getTextFromURL(url):
+    try:
+        article = Article(url)
+        article.download()
+        article.parse()
+        return article.text
+    except Exception as e:
+        print("Error while trying to access url: " + url)
+        print("Full exception: ", e)
+        return None
 
 # Extracts text from the list of urls
 def extractTextFromUrls(listOfUrls):

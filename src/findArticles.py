@@ -1,12 +1,14 @@
 import urllib
+from scraper import gethtmlSource
 from utils import *
+# from scraper import getSource
 from config import settings
 
 
 def scrapeGoogle(query):
     query = urllib.parse.quote_plus(query)
     url = "https://www.google.com/search?q=" + query + "&num=" + str(settings['numOfSourcesToLoad'])
-    response = getSource(url)
+    response = gethtmlSource(url)
     links = []
     for link in response.findAll('a'):
         links.append(link.get('href'))
@@ -29,7 +31,7 @@ def scrapeGoogle(query):
 def scrapeGoogleNews(query):
     query = urllib.parse.quote_plus(query)
     url = "https://www.google.com/search?q=" + query + "&tbm=nws&lr=lang_en&hl=en&sort=date&num=" + str(settings['numOfSourcesToLoad'])
-    response = getSource(url)
+    response = gethtmlSource(url)
     links = []
     for link in response.findAll('a'):
         links.append(link.get('href'))
@@ -49,16 +51,6 @@ def scrapeGoogleNews(query):
     return links
 
 
-def scrapeBing(query):
-    links = []
-    return links
-
-
-def scrapeDuck(query):
-    links = []
-    return links
-
-
 #filters out strings that are not links, and converts them to proper links starting with http or https
 def keepOnlyHttpLinks(links):
     http_domains = ('http://', 'https://')
@@ -73,19 +65,17 @@ def keepMainLink(links):
     for i in range(len(links)):
         links[i] = 'http' + links[i].split('http', 1)[1]
         links[i] = links[i].split('&ved')[0]
+    return links
 
 
 def getLinks(query):
-    # update once more engines can be scraped
     googleLinks = scrapeGoogle(query)
     googleNewslinks = scrapeGoogleNews(query)
-    # duckLinks = scrapeDuck(query)
-    # bingLinks = scrapeBing(query)
 
     links = googleLinks + googleNewslinks
 
     links = keepOnlyHttpLinks(links)
-    keepMainLink(links)
+    links = keepMainLink(links)
     links = list(set(links))  #remove duplicates
     return links
 
