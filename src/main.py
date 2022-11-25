@@ -14,7 +14,7 @@ def inputSetup(args):
     url = args.link
     path = args.path
     if path != None:
-        #extract data from file
+        #extract urls from file
         with open(path, 'r') as f:
             listOfLinksToCheck = f.readlines()
     if url != None:
@@ -29,11 +29,8 @@ def checkURL(url):
     if keyTerms == None:
         return None
     query = ' '.join(keyTerms)
-    if settings['debug'] == True:
-        print("Key terms have been extracted from the article.")
     relatedArticles = findArticles(query)
-    if settings['debug'] == True:
-        print("Related articles have been found.")
+    # Here, relatedArticles is a list of urls of related articles. 
     variationScore = calcSentimentVariation(relatedArticles)
     if settings['debug'] == True:
         print("The variation score is: " + str(variationScore))

@@ -1,21 +1,26 @@
 import sys
 from textblob import TextBlob
 from collections import Counter
-from utils import *
+from newspaper import Article
+
 from config import settings
 
 
 def extractKeyTerms(url):
     try:
+        article = Article(url)
+        article.download()
+        article.parse()
+        
         if settings['keyTermsMethod'] == 'common':
-            all_text = getTextFromURL(url)
-            nouns = extractNouns(all_text)
+            allText = article.text
+            nouns = extractNouns(allText)
             keyTerms = getMostCommonWords(nouns)
         elif settings['keyTermsMethod'] == 'title':
-            title = getTitleFromURL(url)
+            title = article.title
             keyTerms = extractNouns(title)
-    except:
-        print("Key terms could not be retrieved, check that the link works.")
+    except Exception as e:
+        print("Key terms could not be retrieved, returning None.", e)
         return None
     return keyTerms
 
