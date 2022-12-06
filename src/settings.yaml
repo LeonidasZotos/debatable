@@ -1,4 +1,4 @@
-debug: True # Show debug messages?
+debug: False # Show debug messages?
 keyTermsMethod: "title" # "title" or "common". Method to be used for key term extraction from original article
 numOfSourcesToLoad:  15 # Number of sources to attempt to load from each search engine
 numberOfArticles: 100 # Maximum number of articles considered for the score calculation

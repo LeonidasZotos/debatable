@@ -4,7 +4,7 @@ from tqdm import tqdm
 import multiprocessing as mp
 from extractKeyTerms import extractKeyTerms
 from findArticles import findArticles
-from sentimentVariation import calcSentimentVariation
+from semanticVariation import calcSemanticVariation
 from config import settings
 from argumentParser import getArguments
 
@@ -30,15 +30,12 @@ def checkURL(url):
         return None
     query = ' '.join(keyTerms)
     relatedArticles = findArticles(query)
-    # Here, relatedArticles is a list of urls of related articles. 
-    variationScore = calcSentimentVariation(relatedArticles)
-    if settings['debug'] == True:
-        print("The variation score is: " + str(variationScore))
-    
-    #Write to the ongoing file in case there is a crash later on
-    with open(settings['ongoingOutputFile'], 'a') as f:
-        f.write(str([str(keyTerms), str(variationScore)]) + '\n')
-    return [str(keyTerms), str(variationScore)]
+    # Here, relatedArticles is a list of urls of related articles.
+    recommendations = []
+    relatedArticlesAndSimilarityScores = calcSemanticVariation(url, relatedArticles)
+    recommendations = relatedArticlesAndSimilarityScores
+   
+    return [str(url), str(recommendations)]
 
 
 def runner(listOfUrls):

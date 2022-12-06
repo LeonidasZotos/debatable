@@ -18,8 +18,9 @@ def getTextFromURL(url):
         article.parse()
         return article.text
     except Exception as e:
-        print("Error while trying to access url: " + url)
-        print("Full exception: ", e)
+        if settings['debug'] == True:
+            print("Error while trying to access url: " + url)
+            print("Full exception: ", e)
         return None
 
 # Extracts text from the list of urls
