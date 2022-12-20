@@ -13,6 +13,7 @@ def calcIntersection(lst1, lst2):
 def calcJaccardSimilarity(lst1, lst2):
     nominator = calcIntersection(lst1, lst2)
     denominator = lst1 + lst2 # union of the two lists
-    jaccardSimilarity = len(nominator)/len(denominator)
-    
-    return round(jaccardSimilarity, 3)
+    if(len(denominator) == 0):
+        return len(nominator)/0.0000001 # to avoid division by zero
+    else:
+        return len(nominator)/len(denominator)

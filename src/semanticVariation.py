@@ -1,6 +1,8 @@
 from newspaper import Article
 from textblob import TextBlob
 from wordfreq import zipf_frequency
+import string
+import re
 from utils import calcJaccardSimilarity, calcIntersection
 from config import settings
 
@@ -38,14 +40,26 @@ def extractRareWords(articleURL, zipfFrequency = 6): # zipfRareness needs tuning
     print("After removing duplicates, there are " + str(len(articleNounPhrases)) + " noun phrases in the article.")
 
     rareWords = []
+    charactersToGetRidOf = string.punctuation + "’" + "‘" + "“" + "”" + "–" + "—" + "…"
     for word in articleNounPhrases:
-        if zipf_frequency(word, 'en') < zipfFrequency:
+        word = word.lemmatize()
+        # clean word/remove punctuation
+        for char in charactersToGetRidOf:
+            word = word.replace(char, "")
+            
+        word = word.replace("s ", "") # remove "s " that sometimes remains
+        # remove starting and training whitespace
+        word = word.strip()        
+        # check if word is rare and more than two characters in length and has no numbers
+        if (zipf_frequency(word, 'en') < zipfFrequency) and len(word) > 2 and not bool(re.search(r'[0-9]', word)): 
             rareWords.append(word)
 
-    print("The shape of rareWords is: " + rareWords.shape())
     print("---------START OF RARE WORDS---------")
-    print("The rare words are: " + str(rareWords))
+    # print rare words with empty line between each
+    for word in rareWords:
+        print(word)
     print("---------END OF RARE WORDS---------")
+    
     return rareWords
 
 def calcSemanticVariation(mainArticle, relatedArticles):
