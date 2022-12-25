@@ -7,7 +7,7 @@ disableLoadingBars: True # Show loading bars?
 keyTermsMethod: "title" # "title" or "common". Method to be used for key term extraction from original article
 numOfSourcesToLoad:  3 # Number of sources to attempt to load from each search engine
 webpageLoadingTimeout: 15 # Seconds after which there is a timeout error when trying to load a webpage
-headlineSimFilter: False # Filter articles based on headline similarity to make sure they are on the same topic? 
+headlineSimFilter: True # Filter articles based on headline similarity to make sure they are on the same topic? 
 
 # Output Settings
 exportOutput: True # Export the output to a file? 
