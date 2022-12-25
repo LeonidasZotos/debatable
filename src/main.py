@@ -14,7 +14,7 @@ def inputSetup(args):
     url = args.link
     path = args.path
     if path != None:
-        #extract urls from file
+        # Extract urls from file
         with open(path, 'r') as f:
             listOfLinksToCheck = f.readlines()
     if url != None:
@@ -31,11 +31,9 @@ def checkURL(url):
     query = ' '.join(keyTerms)
     relatedArticles = findArticles(query)
     # Here, relatedArticles is a list of urls of related articles.
-    recommendations = []
     relatedArticlesAndSimilarityScores = calcSemanticVariation(url, relatedArticles)
-    recommendations = relatedArticlesAndSimilarityScores
    
-    return [str(url), str(recommendations)]
+    return [url, relatedArticlesAndSimilarityScores]
 
 
 def runner(listOfUrls):
@@ -56,6 +54,20 @@ def runner(listOfUrls):
     
     return filteredResults
 
+def printResults(results):
+    print("Results:")
+    for queryNum, query in enumerate(results): # here, "query" refers to each article that was analysed, in case multiple were provided
+        print("Given URL:", results[queryNum][0])
+        print("The recomendations for articles to read are (in order of dissimilarity):")
+
+        for index, result in enumerate(query[1]):
+            # Print recommendations and their similarity score. 
+            print(str(index + 1) + ") "+ str(result[0]) + " (content similarity = " + str(round(result[1], 2)) + ")")
+            
+        print("---------------------------------------------------")
+        
+    return None
+        
 
 if __name__ == "__main__":
     input = inputSetup(getArguments())
@@ -63,11 +75,17 @@ if __name__ == "__main__":
         sys.exit(0)
     
     results = runner(input)
-    #write results to file
-    print(results)
-    with open(settings['finalOutputFile'], 'w') as f:
-        for result in results:
-            f.write(result[0] + '           ' + result[1] + '\n')
-    print("Results have been written to " + settings['finalOutputFile'])
+
+    printResults(results)
+    
+    # Export results if desired.
+    if settings['exportOutput']:
+        filename = settings['outputFile'] + '.txt'
+        standardOuput = sys.stdout
+        with open(filename, 'w') as f:
+            sys.stdout = f
+            printResults(results)
+            sys.stdout = standardOuput
+        print("Results have been written to " + filename)
 
     sys.exit(0)

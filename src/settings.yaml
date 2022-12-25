@@ -1,10 +1,10 @@
 debug: False # Show debug messages?
 keyTermsMethod: "title" # "title" or "common". Method to be used for key term extraction from original article
-numOfSourcesToLoad:  15 # Number of sources to attempt to load from each search engine
-numberOfArticles: 100 # Maximum number of articles considered for the score calculation
-scoreType: "polarity" # Base result based on either "polarity" or "subjectivity"
-multiProcessing: "L2" # L0 for no multiprocessing. L1 for multiprocessing runner process. L2 for multiprocessing page retrieval
-finalOutputFile: "finalOutputValuations.txt" # Name of output file
-ongoingOutputFile: "ongoingOutputValuations.txt" # Name of output file
+numOfSourcesToLoad:  3 # Number of sources to attempt to load from each search engine
+multiProcessing: "L1" # L0 for no multiprocessing. L1 for multiprocessing runner process. L2 for multiprocessing page retrieval
 webpageLoadingTimeout: 15 # Seconds after which there is a timeout error when trying to load a webpage
-disableLoadingBars: False # Show loading bars? 
+disableLoadingBars: True # Show loading bars? 
+exportOutput: True # Export the output to a file? 
+outputFile: "output" # Name of output file
+numberOfArticles: 50 # DEPRECATED: Maximum number of articles considered for the score calculation
+scoreType: "polarity" # DEPRECATED: Base result based on either "polarity" or "subjectivity"
