@@ -1,10 +1,18 @@
+# General Settings:
 debug: False # Show debug messages?
+multiProcessing: "L1" # L0 for no multiprocessing. L1 for multiprocessing runner process. L2 for multiprocessing page retrieval
+disableLoadingBars: True # Show loading bars? 
+
+# Article Retrieval Settings:
 keyTermsMethod: "title" # "title" or "common". Method to be used for key term extraction from original article
 numOfSourcesToLoad:  3 # Number of sources to attempt to load from each search engine
-multiProcessing: "L1" # L0 for no multiprocessing. L1 for multiprocessing runner process. L2 for multiprocessing page retrieval
 webpageLoadingTimeout: 15 # Seconds after which there is a timeout error when trying to load a webpage
-disableLoadingBars: True # Show loading bars? 
+headlineSimFilter: False # Filter articles based on headline similarity to make sure they are on the same topic? 
+
+# Output Settings
 exportOutput: True # Export the output to a file? 
 outputFile: "output" # Name of output file
+
+# Deprecated/redundant settings (useful for sentiment analysis)
 numberOfArticles: 50 # DEPRECATED: Maximum number of articles considered for the score calculation
 scoreType: "polarity" # DEPRECATED: Base result based on either "polarity" or "subjectivity"
