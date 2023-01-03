@@ -1,0 +1,14 @@
+name: debate64
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - tqdm
+  - textblob
+  - bs4
+  - pyyaml
+  - numpy
+  - newspaper3k
+  - wordfreq
+  - sentence-transformers
+  - jupyter
