@@ -3,13 +3,12 @@ import os
 from tqdm import tqdm
 import multiprocessing as mp
 from itertools import product
-from extractKeyTerms import extractKeyTerms
 from findArticles import findArticles
 from semanticVariation import calcSemanticVariation
 from config import settings
 from argumentParser import getArguments
 from filterArticles import filterArticles
-from scraper import extractContent
+from scraper import extractContent, extractKeyTerms
 
 # Load model here if needed, so that we don't need to load it for each query
 MODEL = ["This", "is", "a", "model", "placeholder"]
