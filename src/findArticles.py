@@ -6,7 +6,8 @@ from config import settings
 
 def scrapeGoogle(query):
     query = urllib.parse.quote_plus(query)
-    url = "https://www.google.com/search?q=" + query + "&num=" + str(settings['numOfSourcesToLoad'])
+    url = "https://www.google.com/search?q=" + query + "&num=" + str(
+        settings['numOfSourcesToLoad'])
     response = gethtmlSource(url)
     links = []
     for link in response.findAll('a'):
@@ -29,7 +30,8 @@ def scrapeGoogle(query):
 
 def scrapeGoogleNews(query):
     query = urllib.parse.quote_plus(query)
-    url = "https://www.google.com/search?q=" + query + "&tbm=nws&lr=lang_en&hl=en&sort=date&num=" + str(settings['numOfSourcesToLoad'])
+    url = "https://www.google.com/search?q=" + query + "&tbm=nws&lr=lang_en&hl=en&sort=date&num=" + str(
+        settings['numOfSourcesToLoad'])
     response = gethtmlSource(url)
     links = []
     for link in response.findAll('a'):
