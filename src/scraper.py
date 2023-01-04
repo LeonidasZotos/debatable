@@ -1,5 +1,6 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup as soup
+from newspaper import Article
 from config import settings
 
 def gethtmlSource(url):
@@ -16,3 +17,14 @@ def gethtmlSource(url):
         return None
 
     return soup(webpage, 'html.parser')
+
+def extractContent(url):
+    # Extracts the content of the article from the URL
+    try:
+        articleContent = Article(url)
+        articleContent.download()
+        articleContent.parse()
+    except Exception as e:
+        print("Could not access related article for url:" + url + ", returning None.", e)
+        return None
+    return articleContent

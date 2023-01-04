@@ -22,18 +22,8 @@ def calcSemanticVariationBetweenTwo(rareWordsMainArticle, url2):
     return similarityScore
 
 
-def extractRareWords(articleURL, zipfFrequency = 6):
-    # Given a URL, extracts the words that are rare in the English language, using the zipf distribution.
-    try:
-        articleText = Article(articleURL)
-        articleText.download()
-        articleText.parse()
-    except Exception as e:
-        if settings['debug'] == True:
-            print("Exception while downloading article: " + str(e))
-        return []
-    
-    articleText = articleText.text
+def extractRareWords(articleContent, zipfFrequency = 6):
+    articleText = articleContent.text
     blob = TextBlob(articleText)
     articleNounPhrases = blob.noun_phrases
     articleNounPhrases = list(set(articleNounPhrases)) # remove duplicate noun phrases
@@ -55,17 +45,17 @@ def extractRareWords(articleURL, zipfFrequency = 6):
     
     return rareWords
 
-def calcSemanticVariation(mainArticle, relatedArticles):
+def calcSemanticVariation(mainArticleContent, relatedArticlesContent):
     # For each related article, calculate the similarity score to the main article.
     
-    # Find the rare words in the main article here, so we only have to download it once
-    rareWordsMainArticle = extractRareWords(mainArticle)
+    # Find the rare words in the main article here, so we only have to find them once
+    rareWordsMainArticle = extractRareWords(mainArticleContent)
     
     relatedArticlesAndSimilarityScores = []
-    for relatedArticle in relatedArticles:
+    for relatedArticle in relatedArticlesContent:
         similarityScore = calcSemanticVariationBetweenTwo(rareWordsMainArticle, relatedArticle)
-        relatedArticlesAndSimilarityScores.append([relatedArticle, similarityScore])
-
+        relatedArticlesAndSimilarityScores.append([relatedArticle.url, similarityScore])
+    
     # sort the list by decreasing similarity score
     relatedArticlesAndSimilarityScores.sort(key=lambda x: x[1], reverse=False)
     

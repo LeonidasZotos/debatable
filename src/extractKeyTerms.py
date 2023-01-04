@@ -1,16 +1,14 @@
-import sys
 from textblob import TextBlob
 from collections import Counter
 from newspaper import Article
+from scraper import extractContent
 
 from config import settings
 
-
 def extractKeyTerms(url):
+    # Also returns the article's content, so that we don't need to download it again if we use it elsewhere
     try:
-        article = Article(url)
-        article.download()
-        article.parse()
+        article = extractContent(url)
         
         if settings['keyTermsMethod'] == 'common':
             allText = article.text
@@ -22,7 +20,7 @@ def extractKeyTerms(url):
     except Exception as e:
         print("Key terms could not be retrieved, returning None.", e)
         return None
-    return keyTerms
+    return keyTerms, article
 
 
 def extractNouns(text):

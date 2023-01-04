@@ -9,6 +9,7 @@ from semanticVariation import calcSemanticVariation
 from config import settings
 from argumentParser import getArguments
 from filterArticles import filterArticles
+from scraper import extractContent
 
 # Load model here if needed, so that we don't need to load it for each query
 MODEL = ["This", "is", "a", "model", "placeholder"]
@@ -47,19 +48,21 @@ def runner(listOfUrls):
     return filteredResults
 
 def checkURL(url):
-    keyTerms = extractKeyTerms(url)
+    keyTerms, mainArticleContent = extractKeyTerms(url)
     if keyTerms == None:
         return None
     query = ' '.join(keyTerms)
     # Here, relatedArticles is a list of urls of related articles.
     relatedArticles = findArticles(query)
-    
+    relatedArticlesContent = []
+    for article in relatedArticles:
+        relatedArticlesContent.append(extractContent(article))
     # If we use the extra filter, filter articles whose title doesn't seem relevant
-    if settings['headlineSimFilter']:
-        copyOfArticleLinks = relatedArticles
-        relatedArticles = filterArticles(copyOfArticleLinks, MODEL)
+    # if settings['headlineSimFilter']:
+    #     copyOfArticleLinks = relatedArticles
+    #     relatedArticles = filterArticles(url, copyOfArticleLinks, MODEL)
     
-    relatedArticlesAndSimilarityScores = calcSemanticVariation(url, relatedArticles)
+    relatedArticlesAndSimilarityScores = calcSemanticVariation(mainArticleContent, relatedArticlesContent)
    
     return [url, relatedArticlesAndSimilarityScores]
 
