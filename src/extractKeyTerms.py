@@ -1,6 +1,5 @@
 from textblob import TextBlob
 from collections import Counter
-from newspaper import Article
 from scraper import extractContent
 
 from config import settings

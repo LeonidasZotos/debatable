@@ -1,7 +1,6 @@
 import urllib
 from scraper import gethtmlSource
 from utils import *
-# from scraper import getSource
 from config import settings
 
 

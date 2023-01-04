@@ -1,4 +1,3 @@
-from newspaper import Article
 from textblob import TextBlob
 from wordfreq import zipf_frequency
 import string
