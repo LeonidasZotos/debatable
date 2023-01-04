@@ -2,17 +2,17 @@ import sys
 import os
 from tqdm import tqdm
 import multiprocessing as mp
+import sentence_transformers
 from itertools import product
+
+from config import settings
 from findArticles import findArticles
 from semanticVariation import calcSemanticVariation
-from config import settings
 from argumentParser import getArguments
 from filterArticles import filterArticles
 from scraper import extractContent, extractKeyTerms
 
-# Load model here if needed, so that we don't need to load it for each query
-MODEL = ["This", "is", "a", "model", "placeholder"]
-
+MODEL = sentence_transformers.SentenceTransformer('models/' + settings['model'])
 
 def inputSetup(args):
     listOfLinksToCheck = []
@@ -57,9 +57,9 @@ def checkURL(url):
     for article in relatedArticles:
         relatedArticlesContent.append(extractContent(article))
     # If we use the extra filter, filter articles whose title doesn't seem relevant
-    # if settings['headlineSimFilter']:
-    #     copyOfArticleLinks = relatedArticles
-    #     relatedArticles = filterArticles(url, copyOfArticleLinks, MODEL)
+    if settings['headlineSimFilter']:
+        copyOfArticlesContent = relatedArticlesContent
+        relatedArticlesContent = filterArticles(mainArticleContent, copyOfArticlesContent, MODEL)
     
     relatedArticlesAndSimilarityScores = calcSemanticVariation(mainArticleContent, relatedArticlesContent)
    

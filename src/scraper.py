@@ -35,7 +35,6 @@ def extractKeyTerms(url):
     # Also returns the article's content, so that we don't need to download it again if we use it elsewhere
     try:
         article = extractContent(url)
-        
         if settings['keyTermsMethod'] == 'common':
             allText = article.text
             nouns = extractNouns(allText)

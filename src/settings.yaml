@@ -1,6 +1,6 @@
 # General Settings:
 debug: False # Show debug messages?
-multiProcessing: "L1" # L0 for no multiprocessing. L1 for multiprocessing runner process. L2 for multiprocessing page retrieval
+multiProcessing: "L2" # L0 for no multiprocessing. L1 for multiprocessing runner process. L2 for multiprocessing page retrieval
 disableLoadingBars: True # Show loading bars? 
 
 # Article Retrieval Settings:
@@ -8,11 +8,9 @@ keyTermsMethod: "title" # "title" or "common". Method to be used for key term ex
 numOfSourcesToLoad:  3 # Number of sources to attempt to load from each search engine
 webpageLoadingTimeout: 15 # Seconds after which there is a timeout error when trying to load a webpage
 headlineSimFilter: True # Filter articles based on headline similarity to make sure they are on the same topic? 
+titleSimilarityThreshold: 0.1
+model: "continuedLearningall-mpnet-base-v1-2023-01-04_15-58-07" # Name of the folder where the model resides
 
 # Output Settings
 exportOutput: True # Export the output to a file? 
 outputFile: "output" # Name of output file
-
-# Deprecated/redundant settings (useful for sentiment analysis)
-numberOfArticles: 50 # DEPRECATED: Maximum number of articles considered for the score calculation
-scoreType: "polarity" # DEPRECATED: Base result based on either "polarity" or "subjectivity"
