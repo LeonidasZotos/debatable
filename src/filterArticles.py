@@ -1,5 +1,4 @@
-from sentence_transformers import SentenceTransformer, util
-from newspaper import Article
+from sentence_transformers import util
 from config import settings
 
 
