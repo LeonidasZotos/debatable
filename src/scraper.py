@@ -30,9 +30,10 @@ def extractContent(url):
         articleContent.download()
         articleContent.parse()
     except Exception as e:
-        print(
-            "Could not access related article for url:" + url +
-            ", returning None.", e)
+        if settings['debug'] == True:
+            print(
+                "Could not access related article for url:" + url +
+                ", returning None.", e)
         return None
     return articleContent
 

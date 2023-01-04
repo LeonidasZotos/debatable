@@ -12,8 +12,9 @@ from argumentParser import getArguments
 from filterArticles import filterArticles
 from scraper import extractContent, extractKeyTerms
 
-MODEL = sentence_transformers.SentenceTransformer('models/' +
-                                                  settings['model'])
+# MODEL = sentence_transformers.SentenceTransformer('models/' + settings['model'])
+MODEL = sentence_transformers.SentenceTransformer(
+    'models/' + settings['model']) if settings['headlineSimFilter'] else []
 
 
 def inputSetup(args):
@@ -38,11 +39,11 @@ def runner(listOfUrls):
             allResults = list(
                 tqdm(pool.starmap(checkURL, product(listOfUrls)),
                      total=len(listOfUrls),
-                     disable=settings['disableLoadingBars']))
+                     disable=not settings['showLoadingBars']))
     else:
         allResults = list(
             map(checkURL,
-                tqdm(listOfUrls, disable=settings['disableLoadingBars'])))
+                tqdm(listOfUrls, disable=not settings['showLoadingBars'])))
 
     # Remove none results from list (e.g. because one of the sources is down)
     filteredResults = list(filter(None, allResults))
@@ -60,6 +61,15 @@ def checkURL(url):
     relatedArticlesContent = []
     for article in relatedArticles:
         relatedArticlesContent.append(extractContent(article))
+
+    # Remove None results from list (e.g. because one of the sources is down)
+    relatedArticlesContent = list(filter(None, relatedArticlesContent))
+    # Remove duplicates
+    relatedArticlesContent = list(dict.fromkeys(relatedArticlesContent))
+    # Remove main article from list
+    relatedArticlesContent = list(
+        filter(lambda x: x.url != url, relatedArticlesContent))
+
     # If we use the extra filter, filter articles whose title doesn't seem relevant
     if settings['headlineSimFilter']:
         copyOfArticlesContent = relatedArticlesContent
