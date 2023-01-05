@@ -4,6 +4,7 @@ from tqdm import tqdm
 import multiprocessing as mp
 import sentence_transformers
 from itertools import product
+from io import StringIO
 
 from config import settings
 from findArticles import findArticles
@@ -102,6 +103,10 @@ def printResults(results):
 
     return None
 
+def GUICallback(url):
+    # Calculate results
+    results = runner([url])
+    return results
 
 if __name__ == "__main__":
     input = inputSetup(getArguments())
