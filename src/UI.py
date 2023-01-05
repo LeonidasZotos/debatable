@@ -8,6 +8,7 @@ class debatableGUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.linkVar = tk.StringVar()
+
         window_width = 750
         window_height = 500
         screen_width = self.winfo_screenwidth()
@@ -33,22 +34,18 @@ class debatableGUI(tk.Tk):
         self.columnconfigure(3, weight=1)
         self.create_widgets()
 
-    def openLinkInBrowser(url):
-        webbrowser.open_new(url)
-    
     def analyseSourceFunction(self):
         linkVar = self.linkVar.get()
+        self.outputLabel.config(text="Finding recommendations...")
+        self.outputLabel.update_idletasks()
         try:
             self.resultBox.delete(1.0, tk.END)  # Clear the box
             results = runner([linkVar])
-            for _, query in enumerate(
-                    results
-            ):  # here, "query" refers to each article that was analysed, in case multiple were provided
-                self.resultBox.insert(
-                    tk.END,
-                    "The recomendations for articles to read are (in order of dissimilarity):\n"
-                )
-            for index, result in enumerate(query[1]):
+            self.outputLabel.config(
+                text=
+                "The recomendations for articles to read are (in order of dissimilarity with the submitted article):"
+            )
+            for index, result in enumerate(results[0][1]):
                 # Print recommendations and their similarity score.
                 reccomendation = str(index + 1) + ") " + str(
                     result[0]) + " (content similarity = " + str(
@@ -56,6 +53,7 @@ class debatableGUI(tk.Tk):
                 self.resultBox.insert(tk.END, reccomendation)
                 self.resultBox.insert(tk.END, "\n---------------\n")
         except:
+            self.outputLabel.config(text="The recomendations will appear here:")
             self.resultBox.insert(tk.END,
                                   "Error: Invalid URL")  # Insert the output
 
@@ -73,7 +71,12 @@ class debatableGUI(tk.Tk):
                               foreground='black',
                               background='white',
                               width=60)
-        boxForLink.grid(column=1, row=0, columnspan=2, sticky=tk.N, padx=5, pady=5)
+        boxForLink.grid(column=1,
+                        row=0,
+                        columnspan=2,
+                        sticky=tk.N,
+                        padx=5,
+                        pady=5)
 
         # Create an analyse button
         analyseBtn = tk.Button(self,
@@ -84,21 +87,22 @@ class debatableGUI(tk.Tk):
         analyseBtn.grid(column=3, row=0, sticky=tk.NE, padx=5, pady=5)
         analyseBtn.focus()
 
-        outputLabel = Label(
-            self,
-            text=
-            'The recomendations for articles to read are (in order of dissimilarity with the submitted article):',
-            foreground='black',
-            background='white')
-        outputLabel.grid(column=0,
-                         row=1,
-                         columnspan=4,
-                         sticky=tk.NSEW,
-                         padx=5,
-                         pady=5)
+        self.outputLabel = Label(self,
+                                 text='The recomendations will appear here:',
+                                 foreground='black',
+                                 background='white')
+        self.outputLabel.grid(column=0,
+                              row=1,
+                              columnspan=4,
+                              sticky=tk.NSEW,
+                              padx=5,
+                              pady=5)
 
         # Create box for the output
-        self.resultBox = tk.Text(self, foreground='black', background='white', wrap=tk.WORD)
+        self.resultBox = tk.Text(self,
+                                 foreground='black',
+                                 background='white',
+                                 wrap=tk.WORD)
         self.resultBox.grid(column=0,
                             row=2,
                             columnspan=4,
