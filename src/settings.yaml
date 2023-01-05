@@ -5,7 +5,7 @@ showLoadingBars: False # Show loading bars? This is only useful when there is an
 
 # Article Retrieval Settings:
 keyTermsMethod: "title" # "title" or "common". Method to be used for key term extraction from original article
-numOfSourcesToLoad: 20 # Number of sources to attempt to load from each search engine
+numOfSourcesToLoad: 10 # Number of sources to attempt to load from each search engine
 webpageLoadingTimeout: 15 # Seconds after which there is a timeout error when trying to load a webpage
 headlineSimFilter: True # Filter articles based on headline similarity to make sure they are on the same topic?
 titleSimilarityThreshold: 0.1

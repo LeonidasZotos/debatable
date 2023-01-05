@@ -103,10 +103,6 @@ def printResults(results):
 
     return None
 
-def GUICallback(url):
-    # Calculate results
-    results = runner([url])
-    return results
 
 if __name__ == "__main__":
     input = inputSetup(getArguments())
