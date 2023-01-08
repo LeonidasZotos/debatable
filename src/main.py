@@ -4,7 +4,6 @@ from tqdm import tqdm
 import multiprocessing as mp
 import sentence_transformers
 from itertools import product
-from io import StringIO
 
 from config import settings
 from findArticles import findArticles
@@ -13,7 +12,6 @@ from argumentParser import getArguments
 from filterArticles import filterArticles
 from scraper import extractContent, extractKeyTerms
 
-# MODEL = sentence_transformers.SentenceTransformer('models/' + settings['model'])
 MODEL = sentence_transformers.SentenceTransformer(
     'models/' + settings['model']) if settings['headlineSimFilter'] else []
 
