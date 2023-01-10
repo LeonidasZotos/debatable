@@ -1,4 +1,4 @@
-name: debate64
+name: debatable
 channels:
   - conda-forge
 dependencies:
@@ -12,3 +12,7 @@ dependencies:
   - wordfreq
   - sentence-transformers
   - jupyter
+  - vulture
+  - yapf
+  - tk
+  - scikit-learn
