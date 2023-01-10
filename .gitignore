@@ -157,3 +157,6 @@ cython_debug/
 
 # Models
 src/models/*/*.bin
+
+# VS Code settings
+.vscode
