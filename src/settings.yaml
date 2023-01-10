@@ -10,11 +10,11 @@ webpageLoadingTimeout: 15 # Seconds after which there is a timeout error when tr
 
 # Headline comparison Settings:
 headlineSimFilter: True # Filter articles based on headline similarity to make sure they are on the same topic?
-titleSimilarityThreshold: 0.1 # Similarity threshold for headline similarity filter
+titleSimilarityThreshold: 0.4 # Similarity threshold for headline similarity filter
 model: "continuedLearningall-mpnet-base-v1-2023-01-04_15-58-07" # Name of the folder where the model resides
 
 # Content comparison Settings:
-useOfTFIDF: Yes # Use TF-IDF to compare the content of the articles?
+useOfTFIDF: Yes # Use TF-IDF to compare the content of the articles? Alternative is a simple word count method using the Fitts distribution
 
 # Output Settings
 exportOutput: True # Export the output to a file? If the GUI is used, the results are not saved in a file

@@ -53,7 +53,8 @@ class debatableGUI(tk.Tk):
                 self.resultBox.insert(tk.END, reccomendation)
                 self.resultBox.insert(tk.END, "\n---------------\n")
         except:
-            self.outputLabel.config(text="The recomendations will appear here:")
+            self.outputLabel.config(
+                text="The recomendations will appear here:")
             self.resultBox.insert(tk.END,
                                   "Error: Invalid URL")  # Insert the output
 

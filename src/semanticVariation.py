@@ -11,10 +11,9 @@ from utils import calcJaccardSimilarity, calcIntersection
 from config import settings
 
 
-
 def computeSimilarity(a, b, vectorizer):
-  tfidf = vectorizer.fit_transform([a, b])
-  return ((tfidf * tfidf.T).toarray())[0,1]
+    tfidf = vectorizer.fit_transform([a, b])
+    return ((tfidf * tfidf.T).toarray())[0,1]
 
 def calcSemanticVariationBetweenTwo(rareWordsMainArticle, url2):
     # Given the rare words of the main article and a URL to another article, calculate the similarity score between them.
@@ -68,25 +67,31 @@ def calcSemanticVariation(mainArticleContent, relatedArticlesContent):
     # For each related article, calculate the similarity score to the main article.
 
     if settings['useOfTFIDF'] == True:
-        remPunctuationMap = dict((ord(char), None) for char in string.punctuation)
-        
-        def preprocess(text): # We define it here so that we can use the remPunctuationMap variable
-            return nltk.word_tokenize(text.lower().translate(remPunctuationMap))
-    
+        remPunctuationMap = dict(
+            (ord(char), None) for char in string.punctuation)
+
+        def preprocess(
+            text
+        ):  # We define it here so that we can use the remPunctuationMap variable
+            return nltk.word_tokenize(
+                text.lower().translate(remPunctuationMap))
+
         enStopwords = stopwords.words('english')
-        vectorizer = TfidfVectorizer(tokenizer=preprocess, stop_words=enStopwords)
-        
+        vectorizer = TfidfVectorizer(tokenizer=preprocess,
+                                     stop_words=enStopwords)
+
         # Get text of main article
         relatedArticlesAndSimilarityScores = []
         mainArticleText = mainArticleContent.text
         for relatedArticle in relatedArticlesContent:
-            similarityScore = computeSimilarity(mainArticleText, relatedArticle.text, vectorizer)
+            similarityScore = computeSimilarity(mainArticleText,
+                                                relatedArticle.text,
+                                                vectorizer)
             relatedArticlesAndSimilarityScores.append(
                 [relatedArticle.url, similarityScore])
         # sort the list by decreasing similarity score
         relatedArticlesAndSimilarityScores.sort(key=lambda x: x[1],
                                                 reverse=False)
-        
 
     else:
         # Find the rare words in the main article here, so we only have to find them once
