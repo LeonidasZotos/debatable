@@ -13,7 +13,8 @@ from config import settings
 
 def computeSimilarity(a, b, vectorizer):
     tfidf = vectorizer.fit_transform([a, b])
-    return ((tfidf * tfidf.T).toarray())[0,1]
+    return ((tfidf * tfidf.T).toarray())[0, 1]
+
 
 def calcSemanticVariationBetweenTwo(rareWordsMainArticle, url2):
     # Given the rare words of the main article and a URL to another article, calculate the similarity score between them.
