@@ -1,14 +1,17 @@
 from textblob import TextBlob
 from wordfreq import zipf_frequency
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
 import string
 import re
 import nltk
-from nltk.corpus import stopwords
 import string
-from sklearn.feature_extraction.text import TfidfVectorizer
+import warnings
 
 from utils import calcJaccardSimilarity, calcIntersection
 from config import settings
+
+warnings.filterwarnings("ignore")
 
 
 def computeSimilarity(a, b, vectorizer):
