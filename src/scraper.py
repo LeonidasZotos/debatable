@@ -64,12 +64,11 @@ def extractNouns(text):
 
 
 def getMostCommonWords(text, numberOfWords=5):
-    # remove stopwords from text
+    # Remove stopwords from text
     enStopwords = stopwords.words('english')
     text = [word for word in text if word not in enStopwords]
-    #get most frequent words in string
+    # Get most frequent words in string
     counter = Counter(text)
     mostCommonWords = counter.most_common(numberOfWords)
     justWords = [i[0] for i in mostCommonWords]
-    print("Most common words: ", justWords)
     return justWords
